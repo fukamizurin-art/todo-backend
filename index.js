@@ -6,20 +6,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "rin1234",
-  database: "todo_db",
-  port: 3307,
-});
-
-db.connect((err) => {
-  if (err) {
-    console.error("DB接続エラー:", err);
-    return;
-  }
-  console.log("MySQLに接続しました！");
+const db = mysql.createPool({
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
 });
 
 app.get("/todos", (req, res) => {
